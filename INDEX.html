@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경기대학교 직무채용박람회 "소통" 채용연계 성과 관리 대시보드</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Noto Sans KR) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        kgublue: '#00458C',      /* 경기대학교 메인 블루 */
+                        kguorange: '#E87722',     /* 로고 오렌지 포인트 */
+                        kgugreen: '#009A44',      /* 로고 그린 포인트 */
+                        kgunavy: '#1F385C',       /* 다크 네이비 */
+                        kgusky: '#F0F5FA',        /* 매우 연한 블루 백그라운드 */
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar style */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00458C;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E87722;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col">
+
+    <!-- Header & Navigation -->
+    <header class="bg-kgunavy text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- KGU Logo Image Replacement (High-Fidelity SVG Component) -->
+                <div class="flex items-center">
+                    <div class="bg-white px-4 py-2 rounded-xl shadow-sm flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100" class="h-11 w-auto" aria-label="경기대학교 로고">
+                            <!-- KGU Text Left -->
+                            <text x="5" y="70" font-family="'Noto Sans KR', sans-serif" font-weight="900" font-size="56" fill="#1A1A1A" letter-spacing="-3">KGU</text>
+                            
+                            <!-- 3D Open Door Frame -->
+                            <!-- Orange/Red-Yellow top bevel -->
+                            <path d="M 125,25 L 140,15 L 195,15 L 195,25 L 145,30 Z" fill="#E87722" />
+                            <path d="M 140,15 L 145,30 L 125,25 Z" fill="#D65A18" />
+                            
+                            <!-- Green Right segment -->
+                            <path d="M 195,15 L 195,95 L 180,85 L 180,25 Z" fill="#009A44" />
+                            
+                            <!-- Blue Bottom segment -->
+                            <path d="M 125,80 L 140,82 L 140,95 L 125,88 Z" fill="#003570" />
+                            <path d="M 140,95 L 195,95 L 180,85 L 140,82 Z" fill="#00458C" />
+                            
+                            <!-- Kyonggi University Texts Right -->
+                            <text x="215" y="44" font-family="'Noto Sans KR', sans-serif" font-weight="900" font-size="30" fill="#1A1A1A" letter-spacing="-1">경기대학교</text>
+                            <text x="215" y="68" font-family="'Noto Sans KR', sans-serif" font-weight="700" font-size="14.5" fill="#1A1A1A" letter-spacing="0.2">KYONGGI UNIVERSITY</text>
+                            <text x="215" y="90" font-family="'Noto Sans KR', sans-serif" font-weight="900" font-size="18" fill="#1A1A1A">1947</text>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Subtitle Description -->
+                <div class="hidden md:flex items-center space-x-2 text-xs text-blue-100 opacity-90">
+                    <i class="fa-solid fa-comments text-kguorange"></i>
+                    <span>기업과 청년, 직무로 소통(疏通)하다!</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Dashboard Intro -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div>
+                <span class="bg-blue-50 text-kgublue font-bold text-xs px-2.5 py-1 rounded-md border border-blue-100">체계지원 프로세스 & 성과관리</span>
+                <h2 class="text-2xl font-black text-slate-800 mt-2">직무채용박람회 "소통" 채용연계 성과 관리</h2>
+                <p class="text-sm text-slate-500 mt-1">경기대 학생과 기업 인사담당자 간의 사전 서류 전형, 박람회 현장 1차 면접, 2차 최종 매칭 프로세스까지의 퍼널을 분석합니다.</p>
+            </div>
+            <!-- Quick Stats: Updated to Target 10+ recruits -->
+            <div class="flex gap-4 w-full md:w-auto">
+                <div class="bg-emerald-50 rounded-xl p-4 flex-1 md:flex-initial text-center border border-emerald-100 min-w-[200px]">
+                    <span class="text-xs text-emerald-700 block font-medium">최종 채용연계 목표</span>
+                    <span class="text-2xl font-black text-emerald-600">10명 이상</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="flex border-b border-slate-200 mb-6 space-x-2 overflow-x-auto">
+            <button onclick="switchTab('tab-process')" id="btn-tab-process" class="tab-btn px-5 py-3 text-sm font-bold text-kgublue border-b-2 border-kgublue flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-network-wired"></i>
+                <span>1. 체계지원 프로세스 (6단계)</span>
+            </button>
+            <button onclick="switchTab('tab-funnel')" id="btn-tab-funnel" class="tab-btn px-5 py-3 text-sm font-medium text-slate-500 hover:text-kgublue hover:border-b-2 hover:border-slate-300 flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-filter text-kguorange"></i>
+                <span>2. 실시간 성과관리 퍼널 시뮬레이터</span>
+            </button>
+        </div>
+
+        <!-- TAB 1: PROCESS -->
+        <div id="tab-process" class="tab-content block space-y-6">
+            <!-- 6 Step Stepper -->
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <!-- Step 1 -->
+                <div onclick="selectStep(1)" id="step-card-1" class="step-card cursor-pointer bg-white border-2 border-kgublue p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-kgublue text-white text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">1</div>
+                    <div class="text-kgublue font-bold text-sm mt-1">채용기업 안내</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">수행직무, 급여 수준 등 채용 조건 투명 공시</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-blue-50 text-kgublue font-medium rounded">D-15 ~ D-7</span>
+                </div>
+                <!-- Step 2 -->
+                <div onclick="selectStep(2)" id="step-card-2" class="step-card cursor-pointer bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-300 text-slate-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">2</div>
+                    <div class="text-slate-800 font-bold text-sm mt-1">입사서류 제출</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">표준 입사서류 공통 서식 작성 및 접수</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-slate-100 text-slate-600 font-medium rounded">D-7 ~ D-3</span>
+                </div>
+                <!-- Step 3 -->
+                <div onclick="selectStep(3)" id="step-card-3" class="step-card cursor-pointer bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-300 text-slate-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">3</div>
+                    <div class="text-slate-800 font-bold text-sm mt-1">서류 사전 전달</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">기업담당자 서류 매칭 및 현장면접 사전 예약</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-slate-100 text-slate-600 font-medium rounded">D-3 ~ D-1</span>
+                </div>
+                <!-- Step 4 -->
+                <div onclick="selectStep(4)" id="step-card-4" class="step-card cursor-pointer bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-300 text-slate-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">4</div>
+                    <div class="text-slate-800 font-bold text-sm mt-1">현장 1차 면접</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">"소통" 박람회 당일 1차 현장 실전 면접 진행</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-slate-100 text-slate-600 font-medium rounded">D-Day ~ D+7</span>
+                </div>
+                <!-- Step 5 -->
+                <div onclick="selectStep(5)" id="step-card-5" class="step-card cursor-pointer bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-300 text-slate-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">5</div>
+                    <div class="text-slate-800 font-bold text-sm mt-1">2차 면접 진행</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">기업 본사 최종 심층 전형 매칭 및 일정 중개</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-slate-100 text-slate-600 font-medium rounded">D+7 ~ D+20</span>
+                </div>
+                <!-- Step 6 -->
+                <div onclick="selectStep(6)" id="step-card-6" class="step-card cursor-pointer bg-white border border-slate-200 p-5 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 relative">
+                    <div class="absolute -top-3 left-4 bg-slate-300 text-slate-600 text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">6</div>
+                    <div class="text-slate-800 font-bold text-sm mt-1">최종합격 & 성과</div>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-2">BARUN 마일리지 연계 및 최종 취업 성공 지표 분석</p>
+                    <span class="text-[10px] mt-3 inline-block px-2 py-0.5 bg-slate-100 text-slate-600 font-medium rounded">D+20 ~ D+30</span>
+                </div>
+            </div>
+
+            <!-- Detailed Step Description Panel -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
+                <div id="step-details-content">
+                    <!-- Javascript will inject detailed info here -->
+                </div>
+            </div>
+
+            <!-- Regional Governance Banner -->
+            <div class="bg-gradient-to-r from-kgublue to-kgunavy rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
+                <div class="space-y-2 text-center md:text-left">
+                    <h3 class="text-lg font-bold"><i class="fa-solid fa-circle-nodes text-kguorange mr-2"></i>경기대학교 수원·경기 권역 고용 거버넌스</h3>
+                    <p class="text-xs text-blue-100 max-w-xl">수원시 및 인근 경기 남부 거점 대학 및 유관 청년센터와의 유기적 네트워크를 연계하여, 지역 거주 미취업 청년들을 박람회로 대거 유치하고 고용노동부 대학일자리플러스센터 평가 우수 등급 연속 달성에 기여합니다.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/10">수원대</span>
+                    <span class="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/10">아주대</span>
+                    <span class="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/10">수원공업고</span>
+                    <span class="text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/10">경기청년지원센터</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: FUNNEL SIMULATOR -->
+        <div id="tab-funnel" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Inputs & Settings (Col 5) -->
+                <div class="lg:col-span-5 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">박람회 성과 데이터 조정</h3>
+                        <p class="text-xs text-slate-500 mt-1">각 채용 매칭 단계별 수치 데이터를 조절하면 우측의 실시간 분석 차트가 동적으로 계산되어 업데이트됩니다.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Stat Item 1 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                                    1단계: 박람회 홍보 및 공고 노출자 수
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-1">1000명</span>
+                            </div>
+                            <input type="range" id="input-step-1" min="500" max="2000" value="1000" step="20" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-kgunavy">
+                        </div>
+
+                        <!-- Stat Item 2 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-blue-300"></span>
+                                    2단계: 입사 지원서 제출 및 사전 접수자 수
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-2">600명</span>
+                            </div>
+                            <input type="range" id="input-step-2" min="200" max="1200" value="600" step="10" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-400">
+                        </div>
+
+                        <!-- Stat Item 3 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                                    3단계: 박람회 현장 1차 면접 실응시자 수
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-3">400명</span>
+                            </div>
+                            <input type="range" id="input-step-3" min="100" max="800" value="400" step="10" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                        </div>
+
+                        <!-- Stat Item 4 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                    4단계: 1차 평가 합격자 수 (2차 대상)
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-4">150명</span>
+                            </div>
+                            <input type="range" id="input-step-4" min="50" max="400" value="150" step="5" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-purple-500">
+                        </div>
+
+                        <!-- Stat Item 5 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                    5단계: 2차 최종 심층 면접 응시자 수
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-5">80명</span>
+                            </div>
+                            <input type="range" id="input-step-5" min="20" max="250" value="80" step="2" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-amber-500">
+                        </div>
+
+                        <!-- Stat Item 6 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                    6단계: 최종 취업 합격 완료 인원수
+                                </label>
+                                <span class="text-xs font-black text-slate-800" id="val-disp-6">35명</span>
+                            </div>
+                            <input type="range" id="input-step-6" min="1" max="150" value="35" step="1" oninput="updateFunnel()" class="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        </div>
+                    </div>
+
+                    <div class="bg-kgusky rounded-xl p-4 border border-blue-100/50 space-y-2">
+                        <div class="text-xs font-bold text-slate-700">📌 성과 목표치 가이드</div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            최종 취업 합격 완료 인원이 10명 이상에 도달할 시 목표를 '초과 우수' 등급으로 충족합니다. 슬라이더를 통해 균형 잡힌 최적의 면접 합격 비율을 계산해 보세요.
+                        </p>
+                        <button onclick="resetFunnelDefault()" class="text-xs text-kgublue font-bold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-left"></i> 기본 기획값으로 초기화
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Funnel Visualization & Analysis (Col 7) -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-bold text-slate-800">박람회 채용 성과 퍼널 차트</h3>
+                            <span class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-1 rounded border border-emerald-100" id="status-badge">목표 완수 (우수)</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">박람회 홍보 노출 대비 실제 합격 및 각 전형별 실질적인 전환율 지표입니다.</p>
+                    </div>
+
+                    <!-- Visual Funnel Render Area -->
+                    <div class="my-6 space-y-2" id="funnel-container">
+                        <!-- Step 1 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #1F385C 0%, #00458C 100%); width: 100%;" id="funnel-bar-1">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">1</span>
+                                <span>홍보 노출 및 관심 유치</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-1">1000명</span>
+                                <span class="ml-2 opacity-75">(100%)</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #0284C7 0%, #0EA5E9 100%); width: 85%; margin: 0 auto;" id="funnel-bar-2">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">2</span>
+                                <span>이력서 사전 접수</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-2">600명</span>
+                                <span class="ml-2 text-sky-100 text-[10px]" id="funnel-ratio-2">전환 60.0%</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #6366F1 0%, #818CF8 100%); width: 70%; margin: 0 auto;" id="funnel-bar-3">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">3</span>
+                                <span>현장 실제 면접</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-3">400명</span>
+                                <span class="ml-2 text-indigo-100 text-[10px]" id="funnel-ratio-3">전환 66.7%</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #A855F7 0%, #C084FC 100%); width: 55%; margin: 0 auto;" id="funnel-bar-4">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">4</span>
+                                <span>1차 합격 (2차 대상)</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-4">150명</span>
+                                <span class="ml-2 text-purple-100 text-[10px]" id="funnel-ratio-4">전환 37.5%</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #F59E0B 0%, #FBBF24 100%); width: 40%; margin: 0 auto;" id="funnel-bar-5">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">5</span>
+                                <span>2차 실면접 응시</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-5">80명</span>
+                                <span class="ml-2 text-amber-100 text-[10px]" id="funnel-ratio-5">전환 53.3%</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 Bar -->
+                        <div class="relative flex items-center justify-between p-3 rounded-lg text-white font-bold transition-all duration-300 shadow-sm" style="background: linear-gradient(90deg, #10B981 0%, #34D399 100%); width: 30%; margin: 0 auto;" id="funnel-bar-6">
+                            <div class="flex items-center space-x-2 text-xs sm:text-sm">
+                                <span class="bg-white/20 w-5 h-5 rounded-full flex items-center justify-center text-[10px]">6</span>
+                                <span>최종 취업 합격</span>
+                            </div>
+                            <div class="text-right text-xs sm:text-sm">
+                                <span id="funnel-val-6">35명</span>
+                                <span class="ml-2 text-emerald-100 text-[10px]" id="funnel-ratio-6">전환 43.8%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Computed Analysis Area -->
+                    <div class="border-t border-slate-100 pt-4 grid grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+                            <span class="text-[10px] text-slate-400 font-bold block">전체 통합 취업 성공률</span>
+                            <span class="text-lg font-black text-slate-800" id="stat-total-conversion">3.50%</span>
+                            <span class="text-[9px] text-slate-400 block mt-0.5">홍보 노출 대비 합격 완료율</span>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
+                            <span class="text-[10px] text-slate-400 font-bold block">이력서제출 대비 합격률</span>
+                            <span class="text-lg font-black text-kgublue" id="stat-doc-conversion">5.83%</span>
+                            <span class="text-[9px] text-slate-400 block mt-0.5">서류 접수 대비 취업 확정률</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400 space-y-2">
+            <p>본 대시보드는 2026학년도 경기대학교 직무채용박람회 "소통"의 매칭 제안 및 성과 시뮬레이션을 관리하기 위해 기획되었습니다.</p>
+            <p>© 2026 KYONGGI UNIVERSITY. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Tab system
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-kgublue', 'border-b-2', 'border-kgublue');
+                btn.classList.add('text-slate-500', 'hover:text-kgublue');
+            });
+
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            activeBtn.classList.remove('text-slate-500', 'hover:text-kgublue');
+            activeBtn.classList.add('text-kgublue', 'border-b-2', 'border-kgublue');
+        }
+
+        // Stepper description details storage for Kyonggi Job Fair "Sotong"
+        const stepDetails = {
+            1: {
+                title: "채용기업 안내 및 사전 공시",
+                time: "D-15 ~ D-7",
+                bg: "bg-kgublue",
+                desc: "경기대학교 직무채용박람회 '소통'에 참여하는 기업의 채용 정보(수행직무, 급여수준, 근무 조건, 전형 일정 등)를 투명하고 자세하게 학생들에게 안내하고 사전 홍보를 시작합니다.",
+                tasks: [
+                    "기업별 구체적인 채용 조건(급여, 복리후생, 상세 JD) 규격화 작업 완료",
+                    "대학일자리플러스센터 홈페이지 및 KUTIS 통합정보시스템 공시 연계",
+                    "수원·경기 남부 고용거버넌스 연계 기관 대상 오프라인 소식지 동시 전달"
+                ],
+                risk: "단순 탐색 위주의 방문으로 이어질 시 실질 매칭율 하락 우려",
+                solution: "급여 및 직무 조건을 포함한 상세 비교 가이드라인의 선제 배포"
+            },
+            2: {
+                title: "입사서류 제출 (표준 서식 작성)",
+                time: "D-7 ~ D-3",
+                bg: "bg-blue-400",
+                desc: "인사담당자들이 일관되게 평가할 수 있도록 경기대 진로취업지원팀에서 마련한 역량 기반 표준 서식을 활용하여, 구직자의 이력서 및 자기소개서를 접수받습니다.",
+                tasks: [
+                    "표준 이력서 및 역량 중심 자기소개서 공통 서식 온라인 배포",
+                    "개인정보 수집·이용 및 제3자(채용기업) 제공동의서 필수 징구",
+                    "제출 누락 및 규격 미준수 서류 선별을 위한 온라인 1차 스크리닝 필터 가동"
+                ],
+                risk: "기재 누락, 양식 미준수 등 불성실 제출자 증가 리스크",
+                solution: "이력서 사전 업로드 완료 학생 대상 AI 자소서 진단 시스템 권한 연동"
+            },
+            3: {
+                title: "제출 서류 사전 전달 (Pre-Screening)",
+                time: "D-3 ~ D-1",
+                bg: "bg-indigo-500",
+                desc: "박람회 현장 면접의 혼잡도를 낮추고 성공 밀도를 극대화하기 위해, 사전에 선별된 학생들의 입사 서류를 참가 기업 인사담당자에게 안전하게 사전 전송합니다.",
+                tasks: [
+                    "참가 기업 보안 이메일 발송 및 면접 매칭 타임테이블 구성",
+                    "기업 실무진의 사전 검토 지원 및 면접 예약자 개별 프로필 인덱싱 제공",
+                    "직무 지원 과밀/미달 기업 모니터링에 따른 선제 조율"
+                ],
+                risk: "학생 노쇼(No-Show) 발생 시 인사담당자 대기 시간 낭비 및 불만 제기",
+                solution: "예약자 전원 당일 알림톡 3회 발송 및 불참 시 마일리지 소멸 패널티 고지"
+            },
+            4: {
+                title: "박람회 현장 1차 실전 면접",
+                time: "D-Day ~ D+7",
+                bg: "bg-purple-500",
+                desc: "박람회 당일, 캠퍼스 내 부스에서 '소통'을 주제로 한 기업 인사담당자들과 구직 학생 간의 1차 현장 실전 면접을 일대일로 밀착 진행하고 면접 평가를 집계합니다.",
+                tasks: [
+                    "현장 부스 안전 장치 통제 및 기업 실무 평가표 정밀 수거 및 전산화",
+                    "행사 종료 후 일주일 이내 현장 1차 면접 합격 결과 개별 공지",
+                    "만족도 조사 완료자 대상 KGU BARUN 마일리지 자동 일괄 적립"
+                ],
+                risk: "전형 집계 지연으로 합격 인원의 타사 중복 이탈 위험 증가",
+                solution: "현장 전산 마감 및 실시간 평가 템플릿 도입으로 일괄 마감 처리"
+            },
+            5: {
+                title: "2차 면접 및 심층 최종 전형",
+                time: "D+7 ~ D+20",
+                bg: "bg-amber-500",
+                desc: "1차 관문을 합격한 학생들을 개별 기업의 2차 심층 면접(인성 및 기술 면접 등) 일정에 따라 기업 본사와 유기적으로 일정 및 조율을 연계 중개합니다.",
+                tasks: [
+                    "대학일자리플러스센터 내 화상 면접존 및 심층 면접 모의 테스트실 공간 제공",
+                    "실전 응시 전 모의면접 피드백 및 이미지 메이킹 클리닉 추가 제공",
+                    "기업 인사팀 요청에 따른 2차 면접 일정 및 서류 보완 정밀 모니터링"
+                ],
+                risk: "자체 2차 전형 응시 포기자 및 누락자 발생 우려",
+                solution: "최종 면접비 지원금(교통비) 신설 및 합격 응원 선물팩 지급 조치"
+            },
+            6: {
+                title: "최종 취업 합격 완료 및 사후 추적",
+                time: "D+20 ~ D+30",
+                bg: "bg-emerald-500",
+                desc: "최종 선발된 경기대 및 경기남부 지역 청년들의 취업 결과를 분석하여, KGU BARUN 취업 축하 마일리지를 부여하고 탈락자를 위한 재매칭 서비스를 연계 제공합니다.",
+                tasks: [
+                    "최종 합격 인원에 대한 KGU BARUN 마일리지/장학 특전 확정 처리",
+                    "최초 홍보 노출 및 서류 제출 대비 최종 채용 결과 정량 퍼널 보고서 작성",
+                    "미취업 탈락 인원 대상 일대일 사후 컨설팅 및 타 상시 추천 채용 프로그램 즉각 연계"
+                ],
+                risk: "최종 집계 후 조기 퇴사자 추적 및 이탈 데이터 수집 불가 리스크",
+                solution: "KGU 사후 유지관리 모니터링 시스템 연동을 통한 분기별 유지율 관리"
+            }
+        };
+
+        function selectStep(stepNum) {
+            // Remove border highlighting from all
+            document.querySelectorAll('.step-card').forEach((card, idx) => {
+                card.classList.remove('border-2', 'border-kgublue', 'shadow-md');
+                card.classList.add('border-slate-200');
+                
+                // Reset badges
+                const badge = card.querySelector('.absolute');
+                badge.classList.remove('bg-kgublue', 'text-white');
+                badge.classList.add('bg-slate-300', 'text-slate-600');
+            });
+
+            // Add highlight to clicked card
+            const selectedCard = document.getElementById(`step-card-${stepNum}`);
+            selectedCard.classList.remove('border-slate-200');
+            selectedCard.classList.add('border-2', 'border-kgublue', 'shadow-md');
+            
+            const selectedBadge = selectedCard.querySelector('.absolute');
+            selectedBadge.classList.remove('bg-slate-300', 'text-slate-600');
+            selectedBadge.classList.add('bg-kgublue', 'text-white');
+
+            // Render details
+            const data = stepDetails[stepNum];
+            let tasksHtml = '';
+            data.tasks.forEach(task => {
+                tasksHtml += `<li>${task}</li>`;
+            });
+
+            document.getElementById('step-details-content').innerHTML = `
+                <div class="flex flex-col lg:flex-row gap-8 animate-fade-in">
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="${data.bg} text-white text-xs font-bold px-3 py-1.5 rounded-md">단계 0${stepNum}</span>
+                            <h3 class="text-xl font-bold text-slate-800">${data.title}</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm leading-relaxed">${data.desc}</p>
+                        <div class="bg-kgusky rounded-xl p-4 border border-blue-50">
+                            <h4 class="font-bold text-xs text-kgublue uppercase tracking-wider mb-2">💡 주요 담당 과업 및 통제 관리</h4>
+                            <ul class="text-xs text-slate-600 space-y-2 list-disc pl-4">
+                                ${tasksHtml}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-80 bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-4">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">리스크 & 보완 조치</div>
+                        <div class="space-y-3">
+                            <div class="bg-rose-50 border-l-4 border-rose-500 p-3 text-xs">
+                                <span class="font-bold text-rose-800 block">이탈 리스크</span>
+                                <span class="text-rose-700">${data.risk}</span>
+                            </div>
+                            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-3 text-xs">
+                                <span class="font-bold text-emerald-800 block">센터 보완책</span>
+                                <span class="text-emerald-700">${data.solution}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Funnel calculation (Updated to Target 10+ recruits)
+        function updateFunnel() {
+            // Collect input values (with logical guards)
+            let s1 = parseInt(document.getElementById('input-step-1').value);
+            let s2 = parseInt(document.getElementById('input-step-2').value);
+            let s3 = parseInt(document.getElementById('input-step-3').value);
+            let s4 = parseInt(document.getElementById('input-step-4').value);
+            let s5 = parseInt(document.getElementById('input-step-5').value);
+            let s6 = parseInt(document.getElementById('input-step-6').value);
+
+            // Constraint logic to prevent illogical hierarchy (e.g., more hires than applicants)
+            if (s2 > s1) { s2 = s1; document.getElementById('input-step-2').value = s2; }
+            if (s3 > s2) { s3 = s2; document.getElementById('input-step-3').value = s3; }
+            if (s4 > s3) { s4 = s3; document.getElementById('input-step-4').value = s4; }
+            if (s5 > s4) { s5 = s4; document.getElementById('input-step-5').value = s5; }
+            if (s6 > s5) { s6 = s5; document.getElementById('input-step-6').value = s6; }
+
+            // Display numerical values
+            document.getElementById('val-disp-1').innerText = `${s1}명`;
+            document.getElementById('val-disp-2').innerText = `${s2}명`;
+            document.getElementById('val-disp-3').innerText = `${s3}명`;
+            document.getElementById('val-disp-4').innerText = `${s4}명`;
+            document.getElementById('val-disp-5').innerText = `${s5}명`;
+            document.getElementById('val-disp-6').innerText = `${s6}명`;
+
+            // Display funnel inner values
+            document.getElementById('funnel-val-1').innerText = `${s1}명`;
+            document.getElementById('funnel-val-2').innerText = `${s2}명`;
+            document.getElementById('funnel-val-3').innerText = `${s3}명`;
+            document.getElementById('funnel-val-4').innerText = `${s4}명`;
+            document.getElementById('funnel-val-5').innerText = `${s5}명`;
+            document.getElementById('funnel-val-6').innerText = `${s6}명`;
+
+            // Calculate ratios (step-to-step)
+            const r2 = ((s2 / s1) * 100).toFixed(1);
+            const r3 = ((s3 / s2) * 100).toFixed(1);
+            const r4 = ((s4 / s3) * 100).toFixed(1);
+            const r5 = ((s5 / s4) * 100).toFixed(1);
+            const r6 = ((s6 / s5) * 100).toFixed(1);
+
+            document.getElementById('funnel-ratio-2').innerText = `전환 ${r2}%`;
+            document.getElementById('funnel-ratio-3').innerText = `전환 ${r3}%`;
+            document.getElementById('funnel-ratio-4').innerText = `전환 ${r4}%`;
+            document.getElementById('funnel-ratio-5').innerText = `전환 ${r5}%`;
+            document.getElementById('funnel-ratio-6').innerText = `전환 ${r6}%`;
+
+            // Calculate overall stats
+            const totalConversion = ((s6 / s1) * 100).toFixed(2);
+            const docConversion = ((s6 / s2) * 100).toFixed(2);
+
+            document.getElementById('stat-total-conversion').innerText = `${totalConversion}%`;
+            document.getElementById('stat-doc-conversion').innerText = `${docConversion}%`;
+
+            // Update bar widths relative to Step 1 (representing 100%)
+            const w2 = Math.max(35, (s2 / s1) * 100);
+            const w3 = Math.max(35, (s3 / s1) * 100);
+            const w4 = Math.max(35, (s4 / s1) * 100);
+            const w5 = Math.max(35, (s5 / s1) * 100);
+            const w6 = Math.max(35, (s6 / s1) * 100);
+
+            document.getElementById('funnel-bar-2').style.width = `${w2}%`;
+            document.getElementById('funnel-bar-3').style.width = `${w3}%`;
+            document.getElementById('funnel-bar-4').style.width = `${w4}%`;
+            document.getElementById('funnel-bar-5').style.width = `${w5}%`;
+            document.getElementById('funnel-bar-6').style.width = `${w6}%`;
+
+            // Goal/Achievement status badge (Kyonggi's updated 10-person target)
+            const statusBadge = document.getElementById('status-badge');
+            if (s6 >= 10) {
+                statusBadge.innerText = `목표 달성 (우수)`;
+                statusBadge.className = "text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-1 rounded border border-emerald-100";
+            } else if (s6 >= 5) {
+                statusBadge.innerText = `목표 근접 (보통)`;
+                statusBadge.className = "text-xs bg-amber-50 text-amber-700 font-bold px-2 py-1 rounded border border-amber-100";
+            } else {
+                statusBadge.innerText = `미달성 우려 (경고)`;
+                statusBadge.className = "text-xs bg-rose-50 text-rose-700 font-bold px-2 py-1 rounded border border-rose-100";
+            }
+        }
+
+        function resetFunnelDefault() {
+            document.getElementById('input-step-1').value = 1000;
+            document.getElementById('input-step-2').value = 600;
+            document.getElementById('input-step-3').value = 400;
+            document.getElementById('input-step-4').value = 150;
+            document.getElementById('input-step-5').value = 80;
+            document.getElementById('input-step-6').value = 35;
+            updateFunnel();
+        }
+
+        // Initialize state
+        window.onload = function() {
+            selectStep(1);
+            updateFunnel();
+        };
+    </script>
+</body>
+</html>
